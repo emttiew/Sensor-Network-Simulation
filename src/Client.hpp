@@ -2,14 +2,14 @@
 
 #include <iostream>
 
+#include "SensorFwd.hpp"
+
 class Client {
-public:
-    Client(int id) : id(id) {}
+ public:
+  Client(int id) : id(id) {}
 
-    void receiveData(int data) {
-        std::cout << "Client " << id << " received data: " << data << "\n";
-    }
+  void receiveData(sensor::SensorDataPtr const& dataPtr);
 
-private:
-    int id;
+ private:
+  int id;
 };

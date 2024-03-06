@@ -4,12 +4,21 @@
 #include <thread>
 
 #include "MainNode.hpp"
+#include "SensorFwd.hpp"
 
 namespace sensor {
 
+struct SensorData
+{
+    explicit SensorData(int pId) : id(pId) {}
+    virtual void print() = 0;
+    int id;
+    virtual ~SensorData() {}
+};
+
 class Sensor {
  public:
-  Sensor(int id, MainNode& mainNode) : id(id), mainNode(mainNode) {}
+  explicit Sensor(MainNode& mainNode) : mainNode(mainNode) {}
   void start() {
     std::thread dataThread(&Sensor::generateData, this);
     dataThread.detach();
@@ -20,9 +29,7 @@ class Sensor {
   virtual void generateData() = 0;
 
  protected:
-  int id;
+  SensorDataPtr dataPtr;
   MainNode& mainNode;
 };
-
-using SensorPtr = std::shared_ptr<Sensor>;
 }  // namespace sensor

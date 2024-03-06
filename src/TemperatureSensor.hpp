@@ -1,19 +1,30 @@
 #pragma once
 
+#include <iostream>
+
 #include "Sensor.hpp"
 
 namespace sensor {
 
+struct TemperatureSensorData : SensorData
+{
+    explicit TemperatureSensorData(int pId) : SensorData(pId) {}
+    void print() override
+    {
+        std::cout << "Temperature sensor id: " << id << " with temperature: " << temperature << std::endl;
+    }
+    float temperature;
+};
+
 class TemperatureSensor : public Sensor {
  public:
-  TemperatureSensor(int id, MainNode& mainNode) : Sensor(id, mainNode) {}
-  void setTemperature(float temp) { temperature = temp; }
+  TemperatureSensor(int id, MainNode& mainNode) : Sensor(mainNode), sensorData(id) {}
 
  private:
-  float temperature;
+ TemperatureSensorData sensorData;
   void generateData() {
-    temperature = 20.5;
-    mainNode.receiveData(temperature);
+    sensorData.temperature = 20.5;
+    mainNode.receiveData(std::make_shared<TemperatureSensorData>(sensorData));
   }
 };
 }  // namespace sensor
