@@ -27,8 +27,9 @@ void MainNode::notifyClients() {
     condVar.wait(lock);
 
     for (sensor::SensorDataPtr const& data : buffer) {
+      int clientId = 0;
       for (Client& client : clients) {
-        client.receiveData(data);
+        client.receiveData(data, clientId++);
       }
     }
     buffer.clear();

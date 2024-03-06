@@ -1,39 +1,50 @@
+#include <cstdlib>
 #include <vector>
 
+#include "Client.hpp"
+#include "HumiditySensor.hpp"
 #include "Sensor.hpp"
 #include "TemperatureSensor.hpp"
-#include "HumiditySensor.hpp"
-#include "Client.hpp"
 
-int main() {
-    MainNode mainNode(10);
+int main(int argc, char* argv[]) {
+  if (argc < 4) {
+    std::cerr << "Usage: " << argv[0]
+              << " <client_size> <buffer_size> <sensor_size>\n";
+    return 1;
+  }
 
-    std::vector<sensor::SensorPtr> sensors;
-    for (int i = 0; i < 2; ++i) {
-        sensors.push_back(std::make_shared<sensor::TemperatureSensor>(i, mainNode));
-    }
+  int clientSize = std::atoi(argv[1]);
+  int bufferSize = std::atoi(argv[2]);
+  int sensorSize = std::atoi(argv[3]);
 
-    for (int i = 0; i < 2; ++i) {
-        sensors.push_back(std::make_shared<sensor::HumiditySensor>(i, mainNode));
-    }
+  MainNode mainNode(bufferSize);
 
-    for (sensor::SensorPtr const& sensor : sensors) {
-        sensor->start();
-    }
+  std::vector<sensor::SensorPtr> sensors;
+  for (int i = 0; i < sensorSize; ++i) {
+    sensors.push_back(std::make_shared<sensor::TemperatureSensor>(i, mainNode));
+  }
 
-    mainNode.start();
+  for (int i = 0; i < sensorSize; ++i) {
+    sensors.push_back(std::make_shared<sensor::HumiditySensor>(i, mainNode));
+  }
 
-    std::vector<Client> clients;
-    for (int i = 0; i < 3; ++i) {
-        clients.push_back(Client(i));
-    }
+  for (sensor::SensorPtr const& sensor : sensors) {
+    // start generating sensor data with a little delay to see how MainNode
+    // gathers the data
+    std::this_thread::sleep_for(std::chrono::seconds(1));
+    sensor->start();
+  }
 
-    for (Client& client : clients)
-    {
-        mainNode.addClient(client);
-    }
+  std::vector<Client> clients;
+  for (int i = 0; i < clientSize; ++i) {
+    clients.push_back(Client(i));
+  }
 
-    while (true) {}
+  for (Client& client : clients) {
+    mainNode.addClient(client);
+  }
 
-    return 0;
+  mainNode.notifyClients();
+
+  return 0;
 }

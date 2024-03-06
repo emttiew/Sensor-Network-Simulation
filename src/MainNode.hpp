@@ -14,11 +14,9 @@ class MainNode {
 
   void receiveData(sensor::SensorDataPtr dataPtr);
 
-  void start();
+  void start(); // start on a new thread
 
   void addClient(Client& client) { clients.push_back(client); }
-
-private:
   void notifyClients();
 
  private:
