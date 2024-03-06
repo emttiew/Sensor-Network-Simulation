@@ -1,10 +1,33 @@
-#include <iostream>
-#include <boost/optional.hpp>
+#include <vector>
 
-int main()
-{
-    boost::optional<int> hello = 1;
+#include "Sensor.hpp"
+#include "Client.hpp"
 
-    std::cout << "Hello World" << std::endl;
-    std::cout << "Hello optional: " << *hello << std::endl;
+int main() {
+    MainNode mainNode(10);
+
+    std::vector<Sensor> sensors;
+    for (int i = 0; i < 5; ++i) {
+        sensors.push_back(Sensor(i, mainNode));
+    }
+
+    for (Sensor& sensor : sensors) {
+        sensor.start();
+    }
+
+    mainNode.start();
+
+    std::vector<Client> clients;
+    for (int i = 0; i < 3; ++i) {
+        clients.push_back(Client(i));
+    }
+
+    for (Client& client : clients)
+    {
+        mainNode.addClient(client);
+    }
+
+    while (true) {}
+
+    return 0;
 }
