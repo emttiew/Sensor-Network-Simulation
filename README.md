@@ -72,7 +72,7 @@ cmake ..
 make
 ```
 
-This will create an executable named `SensorNetwork` in the `build` directory.
+This will create an executable named `SensorNetwork` in the `bin` directory.
 
 
 ### Build with Conan
@@ -94,7 +94,11 @@ Run CMake
 
 ```bash
 cd build
-cmake -DCMAKE_TOOLCHAIN_FILE=conan_toolchain.cmake -DCMAKE_BUILD_TYPE=Release
+cmake .. -DCMAKE_TOOLCHAIN_FILE=conan_toolchain.cmake -DCMAKE_BUILD_TYPE=Release
+```
+Build
+
+```
 make
 ```
 
