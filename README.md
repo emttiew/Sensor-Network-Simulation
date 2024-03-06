@@ -1,4 +1,4 @@
-# Sensor Network Simulation
+# Sensor Network Simulation [![Sensor Network Simulation](https://github.com/emttiew/Sensor-Network-Simulation/actions/workflows/build.yml/badge.svg)](https://github.com/emttiew/Sensor-Network-Simulation/actions/workflows/build.yml)
 
 This project simulates a sensor network consisting of multiple sensors publishing data to a main node. The main node stores the data in a circular buffer and notifies clients at regular intervals.
 

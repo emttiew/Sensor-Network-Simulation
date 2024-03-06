@@ -1,4 +1,4 @@
-name: Conan CMake Project CI
+name: Sensor Network Simulation
 
 on: [push, pull_request, workflow_dispatch]
 
