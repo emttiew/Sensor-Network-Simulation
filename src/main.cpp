@@ -1,18 +1,24 @@
 #include <vector>
 
 #include "Sensor.hpp"
+#include "TemperatureSensor.hpp"
+#include "HumiditySensor.hpp"
 #include "Client.hpp"
 
 int main() {
     MainNode mainNode(10);
 
-    std::vector<Sensor> sensors;
-    for (int i = 0; i < 5; ++i) {
-        sensors.push_back(Sensor(i, mainNode));
+    std::vector<sensor::SensorPtr> sensors;
+    for (int i = 0; i < 2; ++i) {
+        sensors.push_back(std::make_shared<sensor::TemperatureSensor>(i, mainNode));
     }
 
-    for (Sensor& sensor : sensors) {
-        sensor.start();
+    for (int i = 0; i < 2; ++i) {
+        sensors.push_back(std::make_shared<sensor::HumiditySensor>(i, mainNode));
+    }
+
+    for (sensor::SensorPtr const& sensor : sensors) {
+        sensor->start();
     }
 
     mainNode.start();
