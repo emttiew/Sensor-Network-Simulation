@@ -9,12 +9,37 @@ This project simulates a sensor network consisting of multiple sensors publishin
 - Clients are notified about new sensor data at regular intervals
 - Supports different types of sensor messages
 
+## Requirements
+- gtest
+- boost
+- CMake
+
 ## Usage
 
-The application takes three command-line arguments: client size, buffer size, and sensor size. For example, you can run the application with a client size of 2, a buffer size of 5, and a sensor size of 2 like this:
+The application takes three command-line arguments: client size, buffer size, and sensor size. For example, you can run the application with a client size of 2, a buffer size of 4, and a sensor size of 2 like this:
 
 ```bash
-./SensorNetwork 2 5 2
+./SensorNetwork 2 4 2
+```
+
+Sample output:
+```
+Client ID: 0 received -> HumiditySensor sensor id: 0 with humidity: 97
+Client ID: 1 received -> HumiditySensor sensor id: 0 with humidity: 97
+Client ID: 0 received -> HumiditySensor sensor id: 0 with humidity: 4
+Client ID: 1 received -> HumiditySensor sensor id: 0 with humidity: 4
+Client ID: 0 received -> HumiditySensor sensor id: 0 with humidity: 59
+Client ID: 1 received -> HumiditySensor sensor id: 0 with humidity: 59
+Client ID: 0 received -> HumiditySensor sensor id: 0 with humidity: 53
+Client ID: 1 received -> HumiditySensor sensor id: 0 with humidity: 53
+Client ID: 0 received -> Temperature sensor id: 1 with temperature: 56
+Client ID: 1 received -> Temperature sensor id: 1 with temperature: 56
+Client ID: 0 received -> Temperature sensor id: 1 with temperature: 86
+Client ID: 1 received -> Temperature sensor id: 1 with temperature: 86
+Client ID: 0 received -> Temperature sensor id: 1 with temperature: 1
+Client ID: 1 received -> Temperature sensor id: 1 with temperature: 1
+Client ID: 0 received -> Temperature sensor id: 1 with temperature: 43
+Client ID: 1 received -> Temperature sensor id: 1 with temperature: 43
 ```
 
 This will run the app and print info about gathered data for the clients from different sensors.
